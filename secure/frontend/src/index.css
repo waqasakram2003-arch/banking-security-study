@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #0f2233;
+    background: #ffffff;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #ffffff;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@keyframes ib-fade {
+  from {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ib-promo-animate {
+  animation: ib-fade 650ms ease;
+}
+
+/* While a cards submenu link is “cooling down”, don’t reopen hover menus (see App.jsx). */
+body.suppress-nav-hover .nav-dd:hover .nav-menu {
+  display: none !important;
+}
+/* Hamburger Menu Styles */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background-color: #1a2f45;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Animate hamburger on hover */
+button:hover .hamburger span {
+  background-color: #ed7f00;
+}
